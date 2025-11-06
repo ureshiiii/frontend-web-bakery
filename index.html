@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Asha Bakery</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+
+    <style>
+      /* KODE CSS (Styling) */
+
+      /* --- KODE PALET WARNA --- */
+      :root {
+        --warna-utama: #5d4037; /* ini coklat tua */
+        --warna-aksen: #a1887f; /* ini coklat medium */
+        --warna-teks: #3e2723; /* ini coklat sangat tua */
+        --warna-latar: #fdfaf6; /* ini krem */
+        --warna-kartu: #ffffff; /* ini putih */
+        --bayangan: 0 4px 12px rgba(0, 0, 0, 0.08); /* ini bayangan hitam rada pudar */
+      }
+
+      /* --- KODE STYLING DASAR --- */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: 'Nunito', sans-serif;
+        background-color: var(--warna-latar);
+        color: var(--warna-teks);
+      }
+
+      /* --- KODE TAMPILAN HEADER --- */
+      header {
+        background-color: var(--warna-utama);
+        color: white;
+        padding: 1.5rem 2rem;
+        text-align: center;
+      }
+
+      /* --- KODE TAMPILAN UTAMA --- */
+      .container {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
+        padding: 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+      main {
+        background-color: var(--warna-kartu);
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: var(--bayangan);
+      }
+      main h2 {
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid var(--warna-latar);
+        padding-bottom: 0.5rem;
+      }
+
+      /* --- KODE TAMPILAN PRODUK --- */
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 1.5rem;
+      }
+      .product-card {
+        border: 1px solid #eee;
+        border-radius: 8px;
+        box-shadow: var(--bayangan);
+        overflow: hidden;
+        transition: transform 0.2s;
+      }
+      .product-card:hover {
+        transform: translateY(-5px);
+      }
+      .product-card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        background-color: #f0f0f0;
+      }
+      .product-info {
+        padding: 1rem;
+      }
+      .product-info h3 {
+        font-size: 1.1rem;
+      }
+      .product-info .price {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--warna-utama);
+        margin: 0.5rem 0;
+      }
+      .add-to-cart-btn {
+        background-color: var(--warna-aksen);
+        color: white;
+        border: none;
+        padding: 0.6rem 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 100%;
+        font-weight: 600;
+        transition: background-color 0.2s;
+      }
+      .add-to-cart-btn:hover {
+        background-color: var(--warna-utama);
+      }
+
+      /* --- KODE TAMPILAN KERANJANG --- */
+      aside.cart-section {
+        background-color: var(--warna-kartu);
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: var(--bayangan);
+        position: sticky;
+        top: 2rem;
+        height: fit-content;
+      }
+      .cart-items {
+        list-style: none;
+        max-height: 400px;
+        overflow-y: auto;
+      }
+      .cart-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        padding: 0.8rem 0;
+        border-bottom: 1px dashed #ddd;
+      }
+      .cart-item:last-child {
+        border-bottom: none;
+      }
+      .cart-item-info {
+        flex-grow: 1;
+      }
+      .cart-item-info span {
+        display: block;
+      }
+      .cart-item-info span:first-child {
+        font-weight: 600;
+      }
+      .cart-item-subtotal {
+        font-size: 0.9rem;
+        color: #555;
+      }
+
+      /* KODE TAMPILAN +/- DI KERANJANG */
+      .cart-controls {
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        margin-left: 1rem;
+      }
+      .cart-btn {
+        background-color: var(--warna-aksen);
+        color: white;
+        border: none;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        font-size: 1.2rem;
+        font-weight: bold;
+        cursor: pointer;
+        line-height: 26px;
+        text-align: center;
+      }
+      .cart-btn.minus {
+        background-color: #e0e0e0;
+        color: #555;
+      }
+      .cart-btn:hover {
+        opacity: 0.8;
+      }
+
+      /* --- TAMPILAN TOTAL KERANJANG --- */
+      .cart-total {
+        margin-top: 1.5rem;
+        border-top: 2px solid var(--warna-latar);
+        padding-top: 1rem;
+      }
+
+      .cart-total p {
+        display: flex;
+        justify-content: space-between;
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+      .order-btn {
+        background-color: var(--warna-utama);
+        color: white;
+        border: none;
+        padding: 0.8rem 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 100%;
+        font-size: 1.1rem;
+        font-weight: 700;
+      }
+      .empty-cart-btn {
+        background-color: transparent;
+        color: var(--warna-aksen);
+        border: 1px solid var(--warna-aksen);
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 100%;
+        margin-top: 0.5rem;
+      }
+
+      /* --- TAMPILAN FOOTER --- */
+      footer {
+        text-align: center;
+        padding: 2rem;
+        background-color: var(--warna-utama);
+        color: white;
+        margin-top: 2rem;
+      }
+
+      /* --- UNTUK TAMPILAN DI HP --- */
+      @media (max-width: 900px) {
+        .container {
+          grid-template-columns: 1fr;
+        }
+        aside.cart-section {
+          position: relative;
+          top: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- KODE HEADER ATAU ATAS -->
+    <header>
+      <h1>Asha`s Bakery</h1>
+    </header>
+
+    <!-- KODE TAMPILAN UTAMA -->
+    <div class="container">
+      <!-- ini bagian produk, dibuat otomatis oleh js -->
+      <main>
+        <h2>Pilih Varian Roti</h2>
+        <div id="product-grid" class="product-grid"></div>
+      </main>
+
+      <!-- ini bagian keranjang -->
+      <aside class="cart-section">
+        <h2>Keranjang Anda</h2>
+        <ul id="cart-items" class="cart-items"></ul>
+        <div id="cart-empty-message" style="text-align: center; color: #757575; padding: 1rem 0">Keranjang masih kosong...</div>
+        <div class="cart-total">
+          <p>
+            <span>Total:</span>
+            <span id="total-price">Rp 0</span>
+          </p>
+          <button id="order-btn" class="order-btn">Pesan Sekarang</button>
+          <button id="empty-cart-btn" class="empty-cart-btn">Kosongkan Keranjang</button>
+        </div>
+      </aside>
+    </div>
+
+    <!-- KODE FOOTER ATAU BAWAH -->
+    <footer>
+      <p>&copy; 2025 Asha`s Bakery.</p>
+    </footer>
+
+    <script>
+      /* KODE JS (Logika Pembelian) */
+
+      document.addEventListener('DOMContentLoaded', () => {
+        // LOGIKA YANG MEMUAT DATA DAN TAMPILAN PRODUK
+        const products = [
+          {
+            id: 1,
+            name: 'Eclair',
+            price: 15000,
+            img: 'img/eclair.jpeg',
+          },
+          {
+            id: 2,
+            name: 'Bolen',
+            price: 8000,
+            img: 'img/bolen.jpeg',
+          },
+          {
+            id: 3,
+            name: 'Portugpuese Egg Tart',
+            price: 18000,
+            img: 'img/portugese.jpeg',
+          },
+          {
+            id: 4,
+            name: 'Milky Bun Donut',
+            price: 20000,
+            img: 'img/donut.jpeg',
+          },
+          {
+            id: 5,
+            name: 'Polo Bun',
+            price: 20000,
+            img: 'img/polo.jpeg',
+          },
+          {
+            id: 6,
+            name: 'Layered Almond',
+            price: 20000,
+            img: 'img/almond.jpeg',
+          },
+        ];
+
+        let cart = [];
+
+        // LOGIKA YANG MEMUAT HTML KE JS
+        const productGrid = document.getElementById('product-grid');
+        const cartItemsList = document.getElementById('cart-items');
+        const totalPriceEl = document.getElementById('total-price');
+        const cartEmptyMsg = document.getElementById('cart-empty-message');
+        const orderBtn = document.getElementById('order-btn');
+        const emptyCartBtn = document.getElementById('empty-cart-btn');
+
+        // FUNGSI UNTUK MEMFORMAT ATAU MERUBAH ANGKA HARGA KE RUPIAH
+        function formatRupiah(number) {
+          return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0,
+          }).format(number);
+        }
+
+        // FUNGSI UNTUK MENAMPILKAN PRODUK KE DALAM TAMPILAN
+        function displayProducts() {
+          productGrid.innerHTML = '';
+          products.forEach((product) => {
+            // kode html untuk tampilan 1 kartu produk
+            const productCardHTML = `
+                        <div class="product-card">
+                            <img src="${product.img}" alt="${product.name}">
+                            <div class="product-info">
+                                <h3>${product.name}</h3>
+                                <p class="price">${formatRupiah(product.price)}</p>
+                                <button class="add-to-cart-btn" data-id="${product.id}">
+                                    Tambah
+                                </button>
+                            </div>
+                        </div>
+                    `;
+            productGrid.innerHTML += productCardHTML;
+          });
+        }
+
+        // LOGIKA KERANJANG BELANJA
+        function updateCartDisplay() {
+          cartItemsList.innerHTML = '';
+          let total = 0;
+
+          if (cart.length === 0) {
+            cartEmptyMsg.style.display = 'block';
+          } else {
+            cartEmptyMsg.style.display = 'none';
+
+            cart.forEach((item) => {
+              const itemSubtotal = item.price * item.quantity;
+              total += itemSubtotal;
+
+              // kode html untuk tampilan 1 kartu item di keranjang
+              const cartItemHTML = `
+                            <li class="cart-item">
+                                <div class="cart-item-info">
+                                    <span>${item.name}</span>
+                                    <span class="cart-item-subtotal">${formatRupiah(itemSubtotal)}</span>
+                                </div>
+                                <div class="cart-controls">
+                                    <button class="cart-btn minus" data-id="${item.id}">-</button>
+                                    <span>${item.quantity}</span>
+                                    <button class="cart-btn plus" data-id="${item.id}">+</button>
+                                </div>
+                            </li>
+                        `;
+              cartItemsList.innerHTML += cartItemHTML;
+            });
+          }
+
+          // update dan totalkan semua harga di keranjang
+          totalPriceEl.textContent = formatRupiah(total);
+        }
+
+        // LOGIKA UNTUK MENAMBAHKAN PRODUK KE KERANJANG
+        function addToCart(productId) {
+          // cek dulu apakah produk uda ada di keranjang
+          const cartItem = cart.find((item) => item.id === productId);
+
+          if (cartItem) {
+            // kalo uda ada, tambah quantity produk di keranjang
+            cartItem.quantity++;
+          } else {
+            // kalo belum ada, cari data produk dan tambahkan ke keranjang
+            const product = products.find((p) => p.id === productId);
+            cart.push({
+              id: product.id,
+              name: product.name,
+              price: product.price,
+              quantity: 1,
+            });
+          }
+
+          // update tampilan keranjang
+          updateCartDisplay();
+        }
+
+        // LOGIKA UNTUK MENGATUR TOMBOL +/- DI KERANJANG
+        function handleCartControls(productId, action) {
+          const cartItemIndex = cart.findIndex((item) => item.id === productId);
+          if (cartItemIndex === -1) return;
+
+          const cartItem = cart[cartItemIndex];
+
+          if (action === 'plus') {
+            cartItem.quantity++;
+          } else if (action === 'minus') {
+            cartItem.quantity--;
+            // kalo quantity jadi 0, hapus item dari keranjang
+            if (cartItem.quantity === 0) {
+              cart.splice(cartItemIndex, 1);
+            }
+          }
+
+          // update tampilan keranjang
+          updateCartDisplay();
+        }
+
+        // LOGIKA UNTUK MENGOSONGKAN KERANJANG
+        function emptyCart() {
+          cart = [];
+          updateCartDisplay();
+        }
+
+        // LOGIKA TOMBOL DAN INTERAKSI PENGGUNAAN
+
+        // pas tombol 'Tambah' di grid produk diklik
+        productGrid.addEventListener('click', (e) => {
+          if (e.target.classList.contains('add-to-cart-btn')) {
+            const id = parseInt(e.target.dataset.id);
+            addToCart(id);
+          }
+        });
+
+        // pas tombol '+' atau '-' di keranjang diklik
+        cartItemsList.addEventListener('click', (e) => {
+          const id = parseInt(e.target.dataset.id);
+
+          if (e.target.classList.contains('plus')) {
+            handleCartControls(id, 'plus');
+          } else if (e.target.classList.contains('minus')) {
+            handleCartControls(id, 'minus');
+          }
+        });
+
+        // pas tombol 'Pesan Sekarang' diklik
+        orderBtn.addEventListener('click', () => {
+          if (cart.length === 0) {
+            alert('Keranjang Anda masih kosong.');
+            return;
+          }
+
+          alert('Pesanan berhasil dibuat dengan total: ' + totalPriceEl.textContent);
+          emptyCart();
+        });
+
+        // pas tombol 'Kosongkan Keranjang' diklik
+        emptyCartBtn.addEventListener('click', () => {
+          if (cart.length > 0 && confirm('Anda yakin ingin mengosongkan keranjang?')) {
+            emptyCart();
+          }
+        });
+
+        // INISIALISASI AKHIR DEH
+        displayProducts();
+        updateCartDisplay();
+      });
+    </script>
+  </body>
+</html>
