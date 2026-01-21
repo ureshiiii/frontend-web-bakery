@@ -1,787 +1,84 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aqilah's Bakery | Premium & Fresh</title>
+    <title>Aqilah's Bakery | Premium Baked Goods</title>
     
-    <!-- FONTS: Nunito (Body) & Playfair Display (Headings) -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     
-    <!-- ICONS: Phosphor Icons -->
+    <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-
-    <style>
-        /* =========================================
-           1. CSS VARIABLES & RESET
-           ========================================= */
-        :root {
-            /* Color Palette - Modern Earth Tones */
-            --primary: #5D4037;      /* Coklat Tua Elegant */
-            --primary-hover: #4E342E;
-            --secondary: #8D6E63;    /* Coklat Medium */
-            --accent: #D7CCC8;       /* Krem Halus */
-            --bg-body: #FAFAFA;      /* Off-white */
-            --bg-surface: #FFFFFF;   /* Putih Bersih */
-            --text-main: #3E2723;    /* Hampir Hitam */
-            --text-muted: #795548;   /* Abu Kecoklatan */
-            
-            /* Shadows & Radius */
-            --shadow-sm: 0 2px 8px rgba(93, 64, 55, 0.1);
-            --shadow-md: 0 4px 16px rgba(93, 64, 55, 0.15);
-            --radius-sm: 8px;
-            --radius-md: 16px;
-            
-            /* Layout */
-            --header-height: 80px;
-            --drawer-width: 400px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Nunito', sans-serif;
-            background-color: var(--bg-body);
-            color: var(--text-main);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        h1, h2, h3, h4 {
-            font-family: 'Playfair Display', serif;
-            color: var(--primary);
-        }
-
-        button {
-            font-family: 'Nunito', sans-serif;
-            cursor: pointer;
-            border: none;
-            outline: none;
-        }
-
-        ul {
-            list-style: none;
-        }
-
-        /* =========================================
-           2. NAVIGATION & HERO
-           ========================================= */
-        .navbar {
-            height: var(--header-height);
-            background: var(--bg-surface);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 5%;
-            box-shadow: var(--shadow-sm);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .cart-trigger {
-            background: var(--bg-body);
-            padding: 0.5rem;
-            border-radius: 50%;
-            position: relative;
-            transition: transform 0.2s;
-            display: none; /* Hidden on desktop by default in grid layout, shown on mobile */
-        }
-
-        @media (max-width: 900px) {
-            .cart-trigger {
-                display: block;
-            }
-        }
-
-        .cart-trigger i {
-            font-size: 1.5rem;
-            color: var(--primary);
-        }
-
-        .cart-count {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: var(--primary);
-            color: white;
-            font-size: 0.7rem;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(rgba(62, 39, 35, 0.7), rgba(62, 39, 35, 0.7)), url('https://images.unsplash.com/photo-1509365465985-25d11c17e812?q=80&w=2000&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-            height: 350px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: white;
-            padding: 0 1rem;
-            margin-bottom: 2rem;
-            border-bottom-left-radius: var(--radius-md);
-            border-bottom-right-radius: var(--radius-md);
-        }
-
-        .hero-content h1 {
-            color: white;
-            font-size: 3rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .hero-content p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-
-        /* =========================================
-           3. MAIN LAYOUT (GRID)
-           ========================================= */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 5% 5%;
-            display: grid;
-            grid-template-columns: 1fr 350px; /* Main Content + Sidebar */
-            gap: 2.5rem;
-            position: relative;
-        }
-
-        /* Product Grid */
-        .product-section h2 {
-            margin-bottom: 1.5rem;
-            font-size: 2rem;
-            position: relative;
-            display: inline-block;
-        }
-        
-        .product-section h2::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 50%;
-            height: 3px;
-            background: var(--secondary);
-            border-radius: 2px;
-        }
-
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 2rem;
-        }
-
-        /* Product Card */
-        .card {
-            background: var(--bg-surface);
-            border-radius: var(--radius-sm);
-            box-shadow: var(--shadow-sm);
-            overflow: hidden;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .card-img-wrapper {
-            height: 200px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .card-img-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .card:hover .card-img-wrapper img {
-            transform: scale(1.05); /* Zoom effect */
-        }
-
-        .card-body {
-            padding: 1.2rem;
-        }
-
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--text-main);
-        }
-
-        .card-price {
-            color: var(--secondary);
-            font-weight: 700;
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            display: block;
-        }
-
-        .btn-add {
-            width: 100%;
-            padding: 0.8rem;
-            background: var(--bg-body);
-            border: 2px solid var(--primary);
-            color: var(--primary);
-            font-weight: 700;
-            border-radius: var(--radius-sm);
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .btn-add:hover {
-            background: var(--primary);
-            color: white;
-        }
-
-        /* =========================================
-           4. CART SIDEBAR / DRAWER
-           ========================================= */
-        .cart-wrapper {
-            position: relative;
-        }
-
-        .cart-container {
-            background: var(--bg-surface);
-            border-radius: var(--radius-sm);
-            box-shadow: var(--shadow-md);
-            /* By default (desktop) it's just a block in the grid */
-            position: sticky;
-            top: calc(var(--header-height) + 2rem);
-            height: calc(100vh - var(--header-height) - 4rem);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .cart-header {
-            padding: 1.5rem;
-            background: var(--primary);
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .close-cart-btn {
-            background: transparent;
-            color: white;
-            font-size: 1.5rem;
-            display: none; /* Only show on mobile */
-        }
-
-        .cart-body {
-            flex: 1;
-            padding: 1rem;
-            overflow-y: auto;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 2rem 0;
-            color: var(--text-muted);
-        }
-
-        .empty-state i {
-            font-size: 3rem;
-            color: var(--accent);
-            margin-bottom: 1rem;
-        }
-
-        /* Cart Item */
-        .cart-item {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px dashed var(--accent);
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        .cart-item img {
-            width: 60px;
-            height: 60px;
-            border-radius: 6px;
-            object-fit: cover;
-        }
-
-        .cart-item-details {
-            flex: 1;
-        }
-
-        .cart-item-title {
-            font-weight: 700;
-            font-size: 0.95rem;
-            margin-bottom: 0.2rem;
-        }
-
-        .cart-item-price {
-            color: var(--secondary);
-            font-size: 0.9rem;
-        }
-
-        .cart-controls {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            margin-top: 0.5rem;
-        }
-
-        .qty-btn {
-            background: var(--bg-body);
-            width: 24px;
-            height: 24px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            font-size: 0.8rem;
-            border: 1px solid var(--accent);
-        }
-
-        .qty-btn:hover {
-            background: var(--primary);
-            color: white;
-        }
-
-        .delete-btn {
-            margin-left: auto;
-            color: #ef5350;
-            background: transparent;
-            font-size: 1.2rem;
-            padding: 0.2rem;
-        }
-
-        .cart-footer {
-            padding: 1.5rem;
-            border-top: 1px solid var(--accent);
-            background: var(--bg-body);
-        }
-
-        .cart-summary {
-            display: flex;
-            justify-content: space-between;
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-
-        .checkout-btn {
-            width: 100%;
-            padding: 1rem;
-            background: var(--primary);
-            color: white;
-            font-weight: 700;
-            font-size: 1rem;
-            border-radius: var(--radius-sm);
-            transition: 0.2s;
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .checkout-btn:hover:not(:disabled) {
-            background: var(--primary-hover);
-        }
-        
-        .checkout-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-
-        /* =========================================
-           5. MOBILE RESPONSIVE TWEAKS
-           ========================================= */
-        @media (max-width: 900px) {
-            .container {
-                grid-template-columns: 1fr;
-            }
-
-            .cart-wrapper {
-                position: fixed;
-                top: 0;
-                right: 0;
-                width: 100%;
-                height: 100%;
-                z-index: 1000;
-                pointer-events: none; /* Pass through clicks when closed */
-            }
-
-            .cart-container {
-                position: absolute;
-                top: 0;
-                right: 0;
-                width: 85%;
-                max-width: 380px;
-                height: 100%;
-                transform: translateX(100%); /* Hide by default */
-                transition: transform 0.3s ease-in-out;
-                z-index: 1001;
-                pointer-events: auto;
-                border-radius: 0;
-            }
-
-            .cart-wrapper.open .cart-container {
-                transform: translateX(0);
-            }
-
-            /* Backdrop */
-            .cart-backdrop {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0,0,0,0.5);
-                opacity: 0;
-                transition: opacity 0.3s;
-                pointer-events: none;
-            }
-
-            .cart-wrapper.open .cart-backdrop {
-                opacity: 1;
-                pointer-events: auto;
-            }
-
-            .close-cart-btn {
-                display: block;
-            }
-
-            .hero {
-                height: 250px;
-            }
-            
-            .hero-content h1 {
-                font-size: 2rem;
-            }
-        }
-
-        /* =========================================
-           6. TOAST NOTIFICATIONS
-           ========================================= */
-        .toast-container {
-            position: fixed;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 2000;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .toast {
-            background: var(--text-main);
-            color: white;
-            padding: 0.8rem 1.5rem;
-            border-radius: 50px;
-            box-shadow: var(--shadow-md);
-            font-size: 0.9rem;
-            animation: fadeUp 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        footer {
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-top: auto;
-        }
-    </style>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    
+    <!-- Scripts -->
+    <script src="assets/js/app.js" defer></script>
 </head>
 <body>
-
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <div class="logo">
-            <i class="ph-fill ph-cookie"></i>
-            Aqilah's Bakery
-        </div>
-        <div class="nav-actions">
-            <button class="cart-trigger" id="mobile-cart-btn">
-                <i class="ph ph-shopping-cart"></i>
-                <span class="cart-count">0</span>
-            </button>
-        </div>
-    </nav>
-
-    <!-- HERO -->
-    <header class="hero">
-        <div class="hero-content">
-            <h1>Freshly Baked Happiness</h1>
-            <p>Premium bakery with love in every bite.</p>
+    
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo"><i class="ph ph-cookie"></i> Aqilah's Bakery</a>
+            </nav>
         </div>
     </header>
 
-    <!-- CONTENT -->
-    <div class="container">
-        <!-- PRODUCTS -->
-        <main class="product-section">
-            <h2>Menu Favorit</h2>
-            <div id="product-grid" class="product-grid"></div>
-        </main>
+    <main class="container main-layout">
+        <!-- Product Section -->
+        <section>
+            <h2 style="margin-bottom: 1.5rem; color: var(--primary);">Freshly Baked</h2>
+            <div class="product-grid" id="productQueue">
+                <!-- Products rendered via JS -->
+            </div>
+        </section>
 
-        <!-- CART SIDEBAR (Desktop) / DRAWER (Mobile) -->
-        <aside class="cart-wrapper" id="cart-wrapper">
-            <div class="cart-backdrop" id="cart-backdrop"></div>
-            <div class="cart-container">
-                <div class="cart-header">
-                    <h3><i class="ph ph-basket"></i> Keranjang</h3>
-                    <button class="close-cart-btn" id="close-cart-btn">
-                        <i class="ph ph-x"></i>
-                    </button>
-                </div>
-                
-                <div class="cart-body" id="cart-body">
-                    <!-- Cart items injected here -->
-                    <div class="empty-state">
-                        <i class="ph ph-shopping-bag-open"></i>
-                        <p>Keranjang kamu masih kosong nih.</p>
-                    </div>
-                </div>
+        <!-- Cart Sidebar/Drawer -->
+        <aside class="cart-sidebar">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h3 style="color: var(--primary);">Your Cart</h3>
+                <button class="close-cart" onclick="toggleDrawer()" style="background: none; font-size: 1.5rem;">
+                    <i class="ph ph-x"></i>
+                </button>
+            </div>
+            
+            <div class="empty-cart" style="text-align: center; padding: 2rem 0; color: var(--text-muted);">
+                <i class="ph ph-shopping-cart" style="font-size: 3rem; margin-bottom: 0.5rem; opacity: 0.5;"></i>
+                <p>Your cart is empty.</p>
+                <p style="font-size: 0.9rem;">Add some delicious treats!</p>
+            </div>
 
-                <div class="cart-footer">
-                    <div class="cart-summary">
-                        <span>Total</span>
-                        <span id="cart-total">Rp 0</span>
-                    </div>
-                    <button id="checkout-btn" class="checkout-btn" disabled>
-                        <i class="ph ph-whatsapp-logo"></i> Pesan Sekarang
-                    </button>
+            <div class="cart-items" id="cartItems">
+                <!-- Cart items rendered via JS -->
+            </div>
+
+            <div class="cart-footer" style="display: none; border-top: 1px solid var(--accent); padding-top: 1rem;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; font-weight: 700; font-size: 1.1rem;">
+                    <span>Total:</span>
+                    <span class="total-amount">$0.00</span>
                 </div>
+                <button style="width: 100%; background: var(--secondary); color: white; padding: 1rem; border-radius: 8px; font-weight: 700;">
+                    Checkout
+                </button>
             </div>
         </aside>
-    </div>
-
-    <div class="toast-container" id="toast-container"></div>
-
-    <footer>
-        &copy; 2025 Aqilah's Bakery. Dibuat dengan sepenuh hati.
+    </main>
+    
+    <div class="cart-overlay" onclick="toggleDrawer()"></div>
+    
+    <!-- Mobile Cart Toggle -->
+    <button class="cart-toggle-btn" onclick="toggleDrawer()">
+        <i class="ph ph-shopping-cart"></i>
+    </button>
+    
+    <footer style="background: white; margin-top: 4rem; padding: 2rem 0; text-align: center; color: var(--text-muted); border-top: 1px solid var(--accent);">
+        <p>&copy; 2026 Aqilah's Bakery. Handcrafted with love.</p>
     </footer>
 
-    <!-- JAVASCRIPT LOGIC -->
-    <script>
-        // 1. DATA PRODUK
-        const products = [
-            { id: 1, name: 'Eclair', price: 15000, img: 'img/eclair.jpeg' },
-            { id: 2, name: 'Bolen', price: 8000, img: 'img/bolen.jpeg' },
-            { id: 3, name: 'Portuguese Egg Tart', price: 18000, img: 'img/portugese.jpeg' },
-            { id: 4, name: 'Milky Bun Donut', price: 20000, img: 'img/donut.jpeg' },
-            { id: 5, name: 'Polo Bun', price: 20000, img: 'img/polo.jpeg' },
-            { id: 6, name: 'Layered Almond', price: 20000, img: 'img/almond.jpeg' },
-        ];
-
-        // 2. STATE MANAGEMENT
-        let cart = [];
-
-        // 3. UTILS
-        const formatRupiah = (num) => {
-            return new Intl.NumberFormat('id-ID', {
-                style: 'currency',
-                currency: 'IDR',
-                minimumFractionDigits: 0
-            }).format(num);
-        };
-
-        const showToast = (message) => {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = 'toast';
-            toast.innerHTML = `<i class="ph-fill ph-check-circle" style="color: #4CAF50; font-size: 1.2rem;"></i> ${message}`;
-            container.appendChild(toast);
-
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.addEventListener('transitionend', () => toast.remove());
-            }, 3000);
-        };
-
-        // 4. RENDER FUNCTIONS
-        const renderProducts = () => {
-            const grid = document.getElementById('product-grid');
-            grid.innerHTML = products.map(product => `
-                <div class="card">
-                    <div class="card-img-wrapper">
-                        <img src="${product.img}" alt="${product.name}" loading="lazy">
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title">${product.name}</h3>
-                        <span class="card-price">${formatRupiah(product.price)}</span>
-                        <button class="btn-add" onclick="addToCart(${product.id})">
-                            <i class="ph-bold ph-plus"></i> Tambah
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-        };
-
-        const renderCart = () => {
-            const cartBody = document.getElementById('cart-body');
-            const totalEl = document.getElementById('cart-total');
-            const checkoutBtn = document.getElementById('checkout-btn');
-            const countBadges = document.querySelectorAll('.cart-count');
-
-            // Hitung total items & harga
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
-            // Update badges
-            countBadges.forEach(el => el.textContent = totalItems);
-
-            // Empty state check
-            if (cart.length === 0) {
-                cartBody.innerHTML = `
-                    <div class="empty-state">
-                        <i class="ph ph-shopping-bag-open"></i>
-                        <p>Keranjang kamu masih kosong nih.</p>
-                    </div>`;
-                checkoutBtn.disabled = true;
-                totalEl.textContent = formatRupiah(0);
-                return;
-            }
-
-            checkoutBtn.disabled = false;
-            totalEl.textContent = formatRupiah(totalPrice);
-
-            // Render list
-            cartBody.innerHTML = cart.map(item => `
-                <div class="cart-item">
-                    <img src="${item.img}" alt="${item.name}">
-                    <div class="cart-item-details">
-                        <div class="cart-item-title">${item.name}</div>
-                        <div class="cart-item-price">${formatRupiah(item.price * item.quantity)}</div>
-                        <div class="cart-controls">
-                            <button class="qty-btn" onclick="updateQty(${item.id}, -1)">
-                                <i class="ph-bold ph-minus"></i>
-                            </button>
-                            <span style="font-weight:600; min-width:20px; text-align:center;">${item.quantity}</span>
-                            <button class="qty-btn" onclick="updateQty(${item.id}, 1)">
-                                <i class="ph-bold ph-plus"></i>
-                            </button>
-                            <button class="delete-btn" onclick="removeFromCart(${item.id})">
-                                <i class="ph-fill ph-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        };
-
-        // 5. CART LOGIC
-        window.addToCart = (id) => {
-            const product = products.find(p => p.id === id);
-            const existingItem = cart.find(item => item.id === id);
-
-            if (existingItem) {
-                existingItem.quantity++;
-            } else {
-                cart.push({ ...product, quantity: 1 });
-            }
-
-            renderCart();
-            showToast(`<b>${product.name}</b> masuk keranjang!`);
-            
-            // Auto open cart on mobile if added
-            if(window.innerWidth <= 900) {
-                // Optional: openSidebar();
-            }
-        };
-
-        window.updateQty = (id, change) => {
-            const itemIndex = cart.findIndex(item => item.id === id);
-            if (itemIndex > -1) {
-                cart[itemIndex].quantity += change;
-                if (cart[itemIndex].quantity <= 0) {
-                    cart.splice(itemIndex, 1);
-                }
-                renderCart();
-            }
-        };
-
-        window.removeFromCart = (id) => {
-            cart = cart.filter(item => item.id !== id);
-            renderCart();
-        };
-
-        // 6. CHECKOUT MOCKUP
-        document.getElementById('checkout-btn').addEventListener('click', () => {
-            const total = document.getElementById('cart-total').textContent;
-            showToast(`Checkout berhasil! Total: ${total}`);
-            cart = [];
-            renderCart();
-        });
-
-        // 7. RESPONSIVE UI HANDLERS
-        const cartWrapper = document.getElementById('cart-wrapper');
-        const mobileCartBtn = document.getElementById('mobile-cart-btn');
-        const closeCartBtn = document.getElementById('close-cart-btn');
-        const backdrop = document.getElementById('cart-backdrop');
-
-        const openSidebar = () => cartWrapper.classList.add('open');
-        const closeSidebar = () => cartWrapper.classList.remove('open');
-
-        mobileCartBtn.addEventListener('click', openSidebar);
-        closeCartBtn.addEventListener('click', closeSidebar);
-        backdrop.addEventListener('click', closeSidebar);
-
-        // INIT
-        renderProducts();
-        renderCart();
-
-    </script>
 </body>
 </html>
